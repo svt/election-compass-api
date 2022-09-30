@@ -1,0 +1,9 @@
+*.log
+dist/
+data/
+coverage/
+.env
+.cache
+/.idea/
+/node_modules/
+tsconfig.tsbuildinfo

@@ -1,0 +1,17 @@
+# ignore .git and .cache folders
+.git
+.cache
+src/data/raw
+
+# ignore all markdown files
+*.md
+
+# ignore node modules
+node_modules
+
+# ignore build files
+dist
+build
+
+# ignore all config files
+.env*

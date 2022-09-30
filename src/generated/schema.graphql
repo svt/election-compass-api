@@ -1,0 +1,430 @@
+
+#
+# This file has been automatically generated runtime for developer
+# referance and is not used by the aplication DO NOT EDIT
+#
+
+union Answer = PriorityQuestionAnswer | PropositionQuestionAnswer | RangeQuestionAnswer
+
+scalar AnswerValue
+
+"""A political candidate"""
+type Candidate {
+  answers: [Answer!]!
+
+  """Number of questions answered"""
+  answersCount: Int!
+
+  """Questions answers represented as a encoded string"""
+  answersString: String
+  birthdate: String
+  constituencies: [Constituency!]!
+
+  """If the candidate has answered more than 85% of the questions"""
+  eligible: Boolean!
+  firstName: String!
+  fullName: String!
+  id: String!
+  image: Image
+
+  """List of key issues"""
+  keyIssues: [KeyIssue!]!
+  lastName: String!
+  motivateVote: String
+  party: Party!
+  profileQuestionAnswers: [ProfileQuestionAnswer!]!
+  slug: String!
+  updated: String
+}
+
+"""A election constituency (valkrets)"""
+type Constituency {
+  name: String!
+}
+
+"""A election"""
+type Election {
+  activeMunicipality: Boolean!
+  activeNational: Boolean!
+  activeRegion: Boolean!
+  candidates(filter: ElectionCandidateFilter): [Candidate!]!
+  id: String!
+  municipality: Municipality
+
+  """The parties that are part of this election"""
+  parties(filter: PartyFilter): [Party!]!
+
+  """A single election specific question"""
+  question(filter: QuestionFilter!): Question
+
+  """List of questions for this election type"""
+  questions(filter: QuestionFilter): [Question!]!
+}
+
+input ElectionCandidateFilter {
+  eligible: Boolean
+}
+
+enum ElectionType {
+  MUNICIPALITY
+  NATIONAL
+  REGION
+}
+
+interface IAnswer {
+  """If the answer is marked as important"""
+  important: Boolean!
+
+  """The parent question to the answer"""
+  question: Question!
+
+  """The id of the question answered"""
+  questionId: String!
+
+  """The type of the question answered"""
+  questionType: QuestionType!
+
+  """Aditonal reason for the given answer"""
+  reasoning: String
+
+  """The value of the answer encoded as a string"""
+  stringValue: String
+
+  """The parent question to the answer"""
+  value: AnswerValue
+}
+
+interface IQuestion {
+  """A optional text describing that helps explaing the question title"""
+  description: String
+
+  """The type of election"""
+  electionType: String
+
+  """The id of the question"""
+  id: String!
+
+  """Party responses to question"""
+  responses: [QuestionResponse!]!
+
+  """The slug of the question"""
+  slug: String!
+
+  """The title of the question"""
+  title: String!
+
+  """The type of question"""
+  type: String!
+}
+
+"""A image resource"""
+type Image {
+  id: String!
+  photographer: String
+  thumbnail: String! @deprecated(reason: "Use thumbnailUrl instead")
+  thumbnailUrl: String!
+  url: String!
+}
+
+type KeyIssue {
+  category: String!
+  description: String!
+}
+
+input MuncipalityFilter {
+  slug: String
+}
+
+"""Municipalities in sweden"""
+type Municipality {
+  countyName: String!
+  fullName: String!
+  id: String!
+  name: String!
+  regionId: String!
+  regionName: String!
+  slug: String!
+}
+
+"""A political party"""
+type Party {
+  """The abbreviation of a the party name"""
+  abbreviation: String
+
+  """Altingets id of the party (as a candidate)"""
+  altingetCandidateId: String!
+  answers: [Answer!]!
+
+  """Number of questions answered"""
+  answersCount: Int!
+
+  """Questions answers represented as a encoded string"""
+  answersString: String
+
+  """The hex color of a the party"""
+  color: String @deprecated(reason: "Use localy defined color")
+
+  """The type of election the party is running for"""
+  electionType: String!
+
+  """If the party has answered more than 85% of the questions"""
+  eligible: Boolean!
+  generalQuestionAnswers: [ProfileQuestionAnswer!]!
+
+  """Official id of a the party also known as partikod"""
+  id: String! @deprecated(reason: "Party id does not return correct value, use slug for key")
+  inGovernment: Boolean!
+
+  """List of key issues"""
+  keyIssues: [KeyIssue!]!
+  leaders: [PartyLeader!]
+
+  """The motivation for voting for the party"""
+  motivateVote: String
+
+  """The name of a the party"""
+  name: String!
+
+  """Number of held seats in parlment"""
+  parliamentarySeats: Int
+  politicalProposals: [ProfileQuestionAnswer!]!
+  priortyPoliticalProposals: [ProfileQuestionAnswer!]!
+  profileQuestionAnswers: [ProfileQuestionAnswer!]! @deprecated(reason: "use politicalProposals and priortyPoliticalProposals")
+
+  """The slug of a the party name"""
+  slug: String!
+}
+
+input PartyFilter {
+  electionType: ElectionType
+  eligible: Boolean
+  slug: String
+}
+
+"""A leader for a political party"""
+type PartyLeader {
+  """Profile image"""
+  image: Image!
+
+  """Full candidate name"""
+  name: String!
+}
+
+"""A priority question"""
+type PriorityQuestion implements IQuestion {
+  """List of question alternatives, or an empty list if it has none"""
+  alternatives: [QuestionAlternative!]!
+
+  """A optional text describing that helps explaing the question title"""
+  description: String
+
+  """The type of election"""
+  electionType: String
+
+  """The id of the question"""
+  id: String!
+
+  """Party responses to question"""
+  responses: [QuestionResponse!]!
+
+  """The slug of the question"""
+  slug: String!
+
+  """The title of the question"""
+  title: String!
+
+  """The type of question"""
+  type: String!
+}
+
+"""A priority question anwer"""
+type PriorityQuestionAnswer implements IAnswer {
+  """If the answer is marked as important"""
+  important: Boolean!
+
+  """The parent question to the answer"""
+  question: Question!
+
+  """The id of the question answered"""
+  questionId: String!
+
+  """The type of the question answered"""
+  questionType: QuestionType!
+
+  """Aditonal reason for the given answer"""
+  reasoning: String
+
+  """The value of the answer encoded as a string"""
+  stringValue: String
+
+  """The parent question to the answer"""
+  value: AnswerValue
+}
+
+scalar PriorityValue
+
+"""Answer to profile questions"""
+type ProfileQuestionAnswer {
+  answer: String!
+  question: String!
+  title: String!
+  type: String!
+}
+
+"""A proposition question"""
+type PropositionQuestion implements IQuestion {
+  """A optional text describing that helps explaing the question title"""
+  description: String
+
+  """The type of election"""
+  electionType: String
+
+  """The id of the question"""
+  id: String!
+
+  """Party responses to question"""
+  responses: [QuestionResponse!]!
+
+  """The slug of the question"""
+  slug: String!
+
+  """The title of the question"""
+  title: String!
+
+  """The type of question"""
+  type: String!
+}
+
+"""A proposition question anwer"""
+type PropositionQuestionAnswer implements IAnswer {
+  """If the answer is marked as important"""
+  important: Boolean!
+
+  """The parent question to the answer"""
+  question: Question!
+
+  """The id of the question answered"""
+  questionId: String!
+
+  """The type of the question answered"""
+  questionType: QuestionType!
+
+  """Aditonal reason for the given answer"""
+  reasoning: String
+
+  """The value of the answer encoded as a string"""
+  stringValue: String
+
+  """The parent question to the answer"""
+  value: AnswerValue
+}
+
+scalar PropositionValue
+
+type Query {
+  candidate(
+    """slug of the candidate"""
+    slug: String!
+  ): Candidate!
+  candidates: [Candidate!]!
+  election(
+    """slug of the of the election to use as context for nested fields"""
+    slug: String
+  ): Election!
+  municipalities(filter: MuncipalityFilter): [Municipality!]!
+
+  """Get all parties or parties by election"""
+  parties(
+    """slug of the election"""
+    electionSlug: String
+  ): [Party!]!
+
+  """Get a party by slug"""
+  party(filter: PartyFilter!): Party!
+
+  """List of all party slugs"""
+  partySlugs: [String!]!
+
+  """List of all question slugs"""
+  questionSlugs: [String!]!
+  regions: [Region!]!
+}
+
+union Question = PriorityQuestion | PropositionQuestion | RangeQuestion
+
+"""A question alternative"""
+type QuestionAlternative {
+  id: String!
+  text: String!
+}
+
+input QuestionFilter {
+  electionType: [ElectionType!]
+  slug: String
+  type: [QuestionType!]
+}
+
+type QuestionResponse {
+  answer: Answer!
+  party: Party!
+}
+
+scalar QuestionType
+
+"""A range question"""
+type RangeQuestion implements IQuestion {
+  """A optional text describing that helps explaing the question title"""
+  description: String
+
+  """The type of election"""
+  electionType: String
+
+  """The id of the question"""
+  id: String!
+  positions: [String!]!
+
+  """Party responses to question"""
+  responses: [QuestionResponse!]!
+
+  """The slug of the question"""
+  slug: String!
+
+  """The title of the question"""
+  title: String!
+
+  """The type of question"""
+  type: String!
+}
+
+"""A range question anwer"""
+type RangeQuestionAnswer implements IAnswer {
+  """If the answer is marked as important"""
+  important: Boolean!
+
+  """The parent question to the answer"""
+  question: Question!
+
+  """The id of the question answered"""
+  questionId: String!
+
+  """The type of the question answered"""
+  questionType: QuestionType!
+
+  """Aditonal reason for the given answer"""
+  reasoning: String
+
+  """The value of the answer encoded as a string"""
+  stringValue: String
+
+  """The parent question to the answer"""
+  value: AnswerValue
+}
+
+scalar RangeValue
+
+"""Regions in sweden"""
+type Region {
+  id: String!
+  name: String!
+  slug: String!
+}
