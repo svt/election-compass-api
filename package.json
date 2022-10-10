@@ -37,7 +37,7 @@
     "build:clean": "rimraf dist/",
     "build:copy": "copyfiles -u 1 src/**/*.graphql src/**/*.html src/**/*.css src/data/**/* dist/",
     "build:transpile": "tsc --project ./",
-    "data:download": "mkdir -p ./data && curl https://valkompass.svt.se/2022/json/archive.a7f10d4b27333b7df909a08623526c05.tar.gz | tar -xz -C ./data",
+    "data:download": "mkdir -p ./data && curl https://valkompass.svt.se/2022/json/archive.6a98db3accae3c68ff6d342713522b00.tar.gz | tar -xz -C ./data",
     "dev": "nodemon src/index.ts",
     "postinstall": "yarn data:download",
     "start": "yarn build && node dist/index.js",

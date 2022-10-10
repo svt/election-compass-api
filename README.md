@@ -22,7 +22,7 @@ browsing [http://localhost:8443/graphql](http://localhost:8443/graphql)
 
 The datebase that is required for the election compass to work is in the form
 of static json files. These file should be downloaded from
-[valkompass.svt.se](https://valkompass.svt.se/2022/json/archive.a7f10d4b27333b7df909a08623526c05.tar.gz)
+[valkompass.svt.se](https://valkompass.svt.se/2022/json/archive.6a98db3accae3c68ff6d342713522b00.tar.gz)
 during the yarn installation process or by using `yarn data:download` command.
 Optionally the archived data can be download manualy and the content extracted
 to a folder named `data` in the project root folder.
